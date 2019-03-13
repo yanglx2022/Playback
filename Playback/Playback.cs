@@ -1,170 +1,135 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 
-namespace Playback
-{
-    /// <summary>
-    /// 回放
-    /// </summary>
-    public class Playback
-    {
-        public delegate void PlayHandler(byte[] data);
-        /// <summary>
-        /// 回放实现
-        /// </summary>
-        public PlayHandler OnPlay = null;
+namespace Playback {
+	/// <summary>
+	///     回放
+	/// </summary>
+	public class Playback {
+		public delegate void NotifyHandler();
 
-        public delegate void NotifyHandler();
-        /// <summary>
-        /// 一包回放完成事件
-        /// </summary>
-        public NotifyHandler OnPacketPlayed = null;
-        /// <summary>
-        /// 包间隔超时提醒
-        /// </summary>
-        public NotifyHandler OnTimeout = null;
+		public delegate void PlayHandler(byte[] data);
 
-        /// <summary>
-        /// 数据
-        /// </summary>
-        private readonly Dataset dataset;
+		/// <summary>
+		///     数据
+		/// </summary>
+		private readonly Dataset _dataset;
 
-        /// <summary>
-        /// 回放标志
-        /// </summary>
-        private bool playing = false;
+		/// <summary>
+		///     回放标志
+		/// </summary>
+		private bool _playing;
 
-        /// <summary>
-        /// 回放线程
-        /// </summary>
-        private Thread playThread;
+		/// <summary>
+		///     回放线程
+		/// </summary>
+		private Thread _playThread;
 
-        /// <summary>
-        /// 回放数据包数量
-        /// </summary>
-        public int Count
-        {
-            get
-            {
-                return dataset == null ? 0 : dataset.Count;
-            }
-        }
+		private int _startIndex, _endIndex;
 
-        /// <summary>
-        /// 回放数据包计数
-        /// </summary>
-        public int PlayedCount { get; private set; } = 0;
+		/// <summary>
+		///     一包回放完成事件
+		/// </summary>
+		public NotifyHandler OnPacketPlayed = null;
 
-        /// <summary>
-        /// 回放起始位置
-        /// </summary>
-        public int StartIndex
-        {
-            get
-            {
-                return startIndex;
-            }
-            set
-            {
-                startIndex = value > 0 ? (value < Count ? value : Count - 1) : 0; 
-            }
-        }
-        private int startIndex = 0;
+		/// <summary>
+		///     回放实现
+		/// </summary>
+		public PlayHandler OnPlay = null;
 
-        /// <summary>
-        /// 回放结束位置
-        /// </summary>
-        public int EndIndex
-        {
-            get
-            {
-                return endIndex;
-            }
-            set
-            {
-                endIndex = value > 0 ? (value < Count ? value : Count - 1) : 0;
-            }
-        }
-        private int endIndex = 0;
+		/// <summary>
+		///     包间隔超时提醒
+		/// </summary>
+		public NotifyHandler OnTimeout = null;
 
-        // 构造
-        public Playback(Dataset ds)
-        {
-            dataset = ds;
-        }
+		// 构造
+		public Playback(Dataset ds) => _dataset = ds;
 
-        /// <summary>
-        /// 加载回放数据
-        /// </summary>
-        public void Load(string str)
-        {
-            PlayedCount = 0;
-            dataset.Load(str);
-            StartIndex = 0;
-            EndIndex = Count - 1;
-        }
+		/// <summary>
+		///     回放数据包数量
+		/// </summary>
+		public int Count => _dataset?.Count ?? 0;
 
-        /// <summary>
-        /// 开始回放
-        /// </summary>
-        public void Start()
-        {
-            playing = true;
-            playThread = new Thread(PlaybackThread);
-            playThread.IsBackground = true;
-            playThread.Start();
-        }
+		/// <summary>
+		///     回放数据包计数
+		/// </summary>
+		public int PlayedCount { get; private set; }
 
-        /// <summary>
-        /// 停止回放
-        /// </summary>
-        public void Stop()
-        {
-            playing = false;
-            Thread.Sleep(100);
-            if (playThread != null && playThread.IsAlive)
-            {
-                playThread.Abort();
-            }
-            PlayedCount = StartIndex;
-            OnPacketPlayed?.Invoke();
-        }
+		/// <summary>
+		///     回放起始位置
+		/// </summary>
+		public int StartIndex {
+			get => _startIndex;
+			set => _startIndex = Math.Min(Math.Max(0, value), Count - 1);
+		}
 
-        // 回放线程
-        private void PlaybackThread()
-        {
-            try
-            {
-                PlayedCount = StartIndex;
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
-                while (PlayedCount <= EndIndex && playing)
-                {
-                    OnPlay?.Invoke(dataset[PlayedCount].Parse());// 回放数据
-                    PlayedCount++;
-                    OnPacketPlayed?.Invoke();                    // 回放通知
-                    if (PlayedCount <= EndIndex)                 // 包间延时
-                    {
-                        long dt = dataset[PlayedCount].timeStamp
-                            - dataset[PlayedCount - 1].timeStamp;
-                        stopwatch.Stop();
-                        if (dt > stopwatch.ElapsedMilliseconds)
-                        {
-                            Thread.Sleep((int)(dt - stopwatch.ElapsedMilliseconds));
-                        }
-                        stopwatch.Restart();
-                        if (dt < stopwatch.ElapsedMilliseconds)
-                        {
-                            OnTimeout?.Invoke();                 // 超时通知
-                        }
-                    }
-                }
-                stopwatch.Stop();
-            }
-            catch { }
-        }
-    }
+		/// <summary>
+		///     回放结束位置
+		/// </summary>
+		public int EndIndex {
+			get => _endIndex;
+			set => _endIndex = Math.Min(Math.Max(0, value), Count - 1);
+		}
+
+		/// <summary>
+		///     加载回放数据
+		/// </summary>
+		public void Load(string str) {
+			PlayedCount = 0;
+			_dataset.Load(str);
+			StartIndex = 0;
+			EndIndex   = Count - 1;
+		}
+
+		/// <summary>
+		///     开始回放
+		/// </summary>
+		public void Start() {
+			_playing    = true;
+			_playThread = new Thread(PlaybackThread) {IsBackground = true};
+			_playThread.Start();
+		}
+
+		/// <summary>
+		///     停止回放
+		/// </summary>
+		public void Stop() {
+			_playing = false;
+			Thread.Sleep(100);
+			if (_playThread != null && _playThread.IsAlive) _playThread.Abort();
+
+			PlayedCount = StartIndex;
+			OnPacketPlayed?.Invoke();
+		}
+
+		// 回放线程
+		private void PlaybackThread() {
+			try {
+				PlayedCount = StartIndex;
+				var stopwatch = new Stopwatch();
+				stopwatch.Start();
+				while (PlayedCount <= EndIndex && _playing) {
+					OnPlay?.Invoke(_dataset[PlayedCount].Parse()); // 回放数据
+					PlayedCount++;
+					OnPacketPlayed?.Invoke();    // 回放通知
+					if (PlayedCount <= EndIndex) // 包间延时
+					{
+						var dt = _dataset[PlayedCount].timeStamp
+						       - _dataset[PlayedCount - 1].timeStamp;
+						stopwatch.Stop();
+						if (dt > stopwatch.ElapsedMilliseconds)
+							Thread.Sleep((int) (dt - stopwatch.ElapsedMilliseconds));
+
+						stopwatch.Restart();
+						if (dt < stopwatch.ElapsedMilliseconds) OnTimeout?.Invoke(); // 超时通知
+					}
+				}
+
+				stopwatch.Stop();
+			} catch {
+				// ignore
+			}
+		}
+	}
 }
