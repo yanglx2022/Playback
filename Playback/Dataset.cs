@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Playback {
 	/// <summary>
@@ -34,28 +35,23 @@ namespace Playback {
 		/// <summary>
 		///     加载数据
 		/// </summary>
-		public virtual void Load(string str) => _packetList = LoadFromFile(str);
+		public virtual void Load(string str) => _packetList = LoadFromFile(str).ToList();
 
 		/// <summary>
 		///     从文件加载数据
 		/// </summary>
-		public List<Packet> LoadFromFile(string fileName) {
-			var packets = new List<Packet>();
-			var info    = new FileInfo(fileName);
-			if (info.Exists)
-				using (var reader = new StreamReader(fileName)) {
-					var line = reader.ReadLine();
-					while (line != null) {
-						var packet = new Packet(line);
-						if (packet.Checked) packets.Add(packet);
+		private static IEnumerable<Packet> LoadFromFile(string fileName) {
+			if (!new FileInfo(fileName).Exists) yield break;
 
-						line = reader.ReadLine();
-					}
+			using (var reader = new StreamReader(fileName)) {
+				var line = reader.ReadLine();
+				while (line != null) {
+					var packet = new Packet(line);
+					if (packet.Checked) yield return packet;
 
-					reader.Close();
+					line = reader.ReadLine();
 				}
-
-			return packets;
+			}
 		}
 	}
 }

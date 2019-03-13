@@ -13,20 +13,20 @@ namespace Playback {
 		/// <summary>
 		///     原始文本数据
 		/// </summary>
-		public readonly string text;
+		public readonly string Text;
 
 		/// <summary>
 		///     数据时间戳
 		/// </summary>
-		public readonly long timeStamp;
+		public readonly long TimeStamp;
 
 		/// <summary>
 		///     一次回放的数据
 		/// </summary>
 		public Packet(string text) {
-			this.text = text;
+			this.Text = text;
 			try {
-				timeStamp = Convert.ToInt64(text.Substring(0, text.IndexOf(',')));
+				TimeStamp = Convert.ToInt64(text.Substring(0, text.IndexOf(',')));
 				Checked   = true;
 			} catch {
 				// ignored
