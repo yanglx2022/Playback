@@ -21,6 +21,9 @@ namespace PlaybackConsole
         {
             InitializeComponent();
 
+            //FormatConfig config = new FormatConfig();
+            //config.Parse("C:\\Users\\Yang\\Desktop\\test.xml");
+
             playback = new Playback.Playback(new Dataset(new List<Packet>()));
             playback.OnPlay += Cast;
             playback.OnPacketPlayed += PacketPlayed;
