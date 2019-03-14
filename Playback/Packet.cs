@@ -21,7 +21,7 @@ namespace Playback {
 		/// </summary>
 		public readonly long TimeStamp;
 
-        FormatConfig format;
+        Format format;
 
 		/// <summary>
 		///     一次回放的数据
@@ -43,10 +43,40 @@ namespace Playback {
         public virtual byte[] Parse()
         {
             List<byte> data = new List<byte>();
-
-
+            if (format.PatternList)
 
             return data.ToArray();
         }
-	}
+
+        private byte[] Parse(Format.Pattern pattern)
+        {
+            List<byte> data = new List<byte>();
+            List<string> sepList = new List<string>();
+            sepList.AddRange(pattern.SepartorList);
+            sepList.AddRange(pattern.NestSepartorList);
+            string[] items = Text.Split(sepList.ToArray(), StringSplitOptions.None);
+            for(int i = 0; i < items.Length; i++)
+            {
+                switch(Format[pattern.TypeList[i % pattern.TypeList.Count]])
+
+                for(int j = 0; j < ; j++)
+                {
+
+                }
+            }
+
+
+
+            if (pattern.Nest)
+            {
+                for(int i = 0; i < pattern.NestSepartorList.Count; i++)
+                {
+                    string[] items = Text.Split(pattern.NestSepartorList[i]);
+                }
+            }
+
+            return data.ToArray();
+        }
+
+    }
 }
