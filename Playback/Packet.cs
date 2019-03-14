@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Playback {
 	/// <summary>
@@ -37,5 +39,25 @@ namespace Playback {
 		///     解析文本数据
 		/// </summary>
 		public virtual byte[] Parse() => new byte[] { };
+		
+		private byte[] Parse(Format.Pattern pattern)
+        {
+            List<byte> data = new List<byte>();
+            List<string> sepList = new List<string>();
+            sepList.AddRange(pattern.SepartorList);
+            sepList.AddRange(pattern.NestSepartorList);
+            string[] items = Text.Split(sepList.ToArray(), StringSplitOptions.None);
+            for(int i = 0; i < items.Length; i++)
+            {
+                //switch(Format[pattern.TypeList[i % pattern.TypeList.Count]])
+
+                //for(int j = 0; j < ; j++)
+                //{
+
+                //}
+            }
+
+            return data.ToArray();
+        }
 	}
 }
