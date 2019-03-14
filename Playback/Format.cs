@@ -8,7 +8,7 @@ namespace Playback
     /// <summary>
     /// 数据格式
     /// </summary>
-    public class Format
+    class Format
     {
         #region 支持的基本数据类型定义
         public const int TYPE_UNKNOWN = -1;
