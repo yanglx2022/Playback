@@ -39,25 +39,38 @@ namespace Playback {
 		///     解析文本数据
 		/// </summary>
 		public virtual byte[] Parse() => new byte[] { };
-		
-		private byte[] Parse(Format.Pattern pattern)
-        {
-            List<byte> data = new List<byte>();
-            List<string> sepList = new List<string>();
-            sepList.AddRange(pattern.SepartorList);
-            sepList.AddRange(pattern.NestSepartorList);
-            string[] items = Text.Split(sepList.ToArray(), StringSplitOptions.None);
-            for(int i = 0; i < items.Length; i++)
-            {
-                //switch(Format[pattern.TypeList[i % pattern.TypeList.Count]])
 
-                //for(int j = 0; j < ; j++)
-                //{
+		private byte[] Parse(Format.Pattern pattern) {
+			List<byte>   data    = new List<byte>();
+			List<string> sepList = new List<string>();
+			sepList.AddRange(pattern.SepartorList);
+			sepList.AddRange(pattern.NestSepartorList);
+			string[] items = Text.Split(sepList.ToArray(), StringSplitOptions.None);
+			for (int i = 0; i < items.Length; i++) {
+				switch (pattern.TypeList[i % pattern.TypeList.Count].ToType()) {
+					case Format.DataType.Unknown: break;
+					case Format.DataType.Bool:    break;
+					case Format.DataType.Int8:    break;
+					case Format.DataType.Int16:   break;
+					case Format.DataType.Int32:   break;
+					case Format.DataType.Int64:   break;
+					case Format.DataType.Float:   break;
+					case Format.DataType.Double:  break;
+					case Format.DataType.Uint8:   break;
+					case Format.DataType.Uint16:  break;
+					case Format.DataType.Uint32:  break;
+					case Format.DataType.Uint64:  break;
+					case Format.DataType.String:  break;
+					default:                      throw new ArgumentOutOfRangeException();
+				}
 
-                //}
-            }
+				//for(int j = 0; j < ; j++)
+				//{
 
-            return data.ToArray();
-        }
+				//}
+			}
+
+			return data.ToArray();
+		}
 	}
 }

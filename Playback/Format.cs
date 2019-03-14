@@ -47,51 +47,6 @@ namespace Playback {
 		public Format() { }
 
 		/// <summary>
-		/// 类型名称索引
-		/// </summary>
-		public DataType this[string typename] {
-			get {
-				switch (typename.Trim().ToLower()) {
-					case "bool":
-					case "boolean":
-						return DataType.Bool;
-					case "char":
-					case "int8":
-						return DataType.Int8;
-					case "short":
-					case "int16":
-						return DataType.Int16;
-					case "int":
-					case "int32":
-						return DataType.Int32;
-					case "long":
-					case "int64":
-						return DataType.Int64;
-					case "float":
-						return DataType.Float;
-					case "double":
-						return DataType.Double;
-					case "uchar":
-					case "uint8":
-						return DataType.Uint8;
-					case "ushort":
-					case "uint16":
-						return DataType.Uint16;
-					case "uint":
-					case "uint32":
-						return DataType.Uint32;
-					case "ulong":
-					case "uint64":
-						return DataType.Uint64;
-					case "string":
-						return DataType.String;
-					default:
-						return DataType.Unknown;
-				}
-			}
-		}
-
-		/// <summary>
 		/// 模式
 		/// </summary>
 		public class Pattern {
@@ -150,6 +105,48 @@ namespace Playback {
 			/// 是否嵌套模式
 			/// </summary>
 			public bool Nest => NestSepartorList.Count > 0;
+		}
+	}
+
+	public static class Extensions {
+		public static Format.DataType ToType(this string text) {
+			switch (text.Trim().ToLower()) {
+				case "bool":
+				case "boolean":
+					return Format.DataType.Bool;
+				case "char":
+				case "int8":
+					return Format.DataType.Int8;
+				case "short":
+				case "int16":
+					return Format.DataType.Int16;
+				case "int":
+				case "int32":
+					return Format.DataType.Int32;
+				case "long":
+				case "int64":
+					return Format.DataType.Int64;
+				case "float":
+					return Format.DataType.Float;
+				case "double":
+					return Format.DataType.Double;
+				case "uchar":
+				case "uint8":
+					return Format.DataType.Uint8;
+				case "ushort":
+				case "uint16":
+					return Format.DataType.Uint16;
+				case "uint":
+				case "uint32":
+					return Format.DataType.Uint32;
+				case "ulong":
+				case "uint64":
+					return Format.DataType.Uint64;
+				case "string":
+					return Format.DataType.String;
+				default:
+					return Format.DataType.Unknown;
+			}
 		}
 	}
 }
