@@ -46,8 +46,8 @@ namespace Playback {
 			using (StreamReader reader = new StreamReader(fileName)) {
 				string line = reader.ReadLine();
 				while (line != null) {
-					Packet packet = new Packet(line);
-					if (packet.Checked) yield return packet;
+					if (Packet.TryParse(line, out var packet))
+						yield return packet;
 
 					line = reader.ReadLine();
 				}
