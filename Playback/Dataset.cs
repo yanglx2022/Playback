@@ -43,10 +43,10 @@ namespace Playback {
 		private static IEnumerable<Packet> LoadFromFile(string fileName) {
 			if (!new FileInfo(fileName).Exists) yield break;
 
-			using (var reader = new StreamReader(fileName)) {
-				var line = reader.ReadLine();
+			using (StreamReader reader = new StreamReader(fileName)) {
+				string line = reader.ReadLine();
 				while (line != null) {
-					var packet = new Packet(line);
+					Packet packet = new Packet(line);
 					if (packet.Checked) yield return packet;
 
 					line = reader.ReadLine();
