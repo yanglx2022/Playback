@@ -105,11 +105,9 @@ namespace Playback {
 
 					if (PlayedCount > EndIndex) continue;
 
-					long dt = _dataset[PlayedCount].TimeStamp - _dataset[PlayedCount - 1].TimeStamp;
-
-					stopwatch.Stop();
+					long dt     = _dataset[PlayedCount].TimeStamp - _dataset[PlayedCount - 1].TimeStamp;
 					long actual = stopwatch.ElapsedMilliseconds;
-					stopwatch.Restart();
+					stopwatch.Reset();
 
 					if (dt > actual)
 						await Task.Delay((int) (dt - actual), _cancellation.Token);
