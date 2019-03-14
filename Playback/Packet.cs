@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 
 namespace Playback {
 	/// <summary>
@@ -24,13 +24,11 @@ namespace Playback {
 		///     一次回放的数据
 		/// </summary>
 		public Packet(string text) {
-			this.Text = text;
-			try {
-				TimeStamp = Convert.ToInt64(text.Substring(0, text.IndexOf(',')));
-				Checked   = true;
-			} catch {
-				// ignored
-			}
+			var head = new string(text.TakeWhile(char.IsDigit).ToArray());
+
+			Checked   = long.TryParse(head, out var value);
+			TimeStamp = Checked ? value : 0;
+			Text      = new string(text.Skip(head.Length + 1).ToArray());
 		}
 
 		/// <summary>
