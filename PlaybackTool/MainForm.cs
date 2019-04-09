@@ -9,39 +9,54 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Playback;
 
-namespace PlaybackConsole
+
+namespace PlaybackTool
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
+        /// <summary>
+        /// 回放文件名
+        /// </summary>
         string filename = "";
+        /// <summary>
+        /// 回放框架
+        /// </summary>
+        Playback.Playback playback = null;
 
-        Playback.Playback playback;
-
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
 
-            //FormatConfig config = new FormatConfig();
-            //config.Parse("C:\\Users\\Yang\\Desktop\\test.xml");
-
+            // 数据格式配置
+            FormatConfig config = new FormatConfig();
+            // 回放
             playback = new Playback.Playback(new Dataset(new List<Packet>()));
             playback.OnPlay += Cast;
             playback.OnPacketPlayed += PacketPlayed;
+            //// 网络
+            //var listen = new MulticastListener(
+            //    pack => Record(pack.Payload), (byte)UdpCmd.Common);
+            //var hub = new RemoteHub("PlaybackTool", additions: listen);
         }
+
+        // 写文件
+        private void Record(byte[] data)
+        { }
 
         void Cast(byte[] data)
         {
             Console.WriteLine("=====play=====");
         }
 
-        delegate void SetValueMethod(int value);
         void PacketPlayed()
         {
-            trackBar1.Invoke(new SetValueMethod( 
-                value => { trackBar1.Value = value; }), playback.PlayedCount);
+            trackBar1.Invoke(new Action<int>(value => {
+                trackBar1.Value = value;
+            }),
+                playback.PlayedCount);
         }
 
-        private void btnPlay_Click(object sender, EventArgs e)
+        private void BtnPlay_Click(object sender, EventArgs e)
         {
             if (btnPlay.Text == "回放")
             {
@@ -66,7 +81,7 @@ namespace PlaybackConsole
                     trackBar1.SetRange(0, playback.Count);
                     trackBar1.LargeChange = 1;
                     trackBar1.Value = 0;
-                    trackBar1.TickFrequency = playback.Count / 100;
+                    trackBar1.TickFrequency = playback.Count / 10;
                     playback.Start();
                     btnPlay.Text = "停止回放";
                     this.Text = "数据回放工具 - 正在回放";
@@ -80,5 +95,6 @@ namespace PlaybackConsole
                 this.Text = "数据回放工具";
             }
         }
+
     }
 }

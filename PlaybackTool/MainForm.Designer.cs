@@ -1,6 +1,6 @@
-﻿namespace PlaybackConsole
+﻿namespace PlaybackTool
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -38,26 +38,25 @@
             // 
             // btnPlay
             // 
-            this.btnPlay.Location = new System.Drawing.Point(4, 13);
-            this.btnPlay.Margin = new System.Windows.Forms.Padding(4);
+            this.btnPlay.Location = new System.Drawing.Point(24, 25);
             this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Size = new System.Drawing.Size(112, 73);
+            this.btnPlay.Size = new System.Drawing.Size(85, 70);
             this.btnPlay.TabIndex = 0;
             this.btnPlay.Text = "回放";
             this.btnPlay.UseVisualStyleBackColor = true;
-            this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
+            this.btnPlay.Click += new System.EventHandler(this.BtnPlay_Click);
             // 
             // trackBar1
             // 
-            this.trackBar1.Location = new System.Drawing.Point(145, 17);
+            this.trackBar1.Location = new System.Drawing.Point(163, 25);
             this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(382, 69);
+            this.trackBar1.Size = new System.Drawing.Size(355, 69);
             this.trackBar1.TabIndex = 1;
             // 
             // cbLoop
             // 
             this.cbLoop.AutoSize = true;
-            this.cbLoop.Location = new System.Drawing.Point(160, 79);
+            this.cbLoop.Location = new System.Drawing.Point(187, 114);
             this.cbLoop.Name = "cbLoop";
             this.cbLoop.Size = new System.Drawing.Size(70, 22);
             this.cbLoop.TabIndex = 2;
@@ -67,7 +66,7 @@
             // cbRepeat
             // 
             this.cbRepeat.AutoSize = true;
-            this.cbRepeat.Location = new System.Drawing.Point(259, 79);
+            this.cbRepeat.Location = new System.Drawing.Point(342, 114);
             this.cbRepeat.Name = "cbRepeat";
             this.cbRepeat.Size = new System.Drawing.Size(70, 22);
             this.cbRepeat.TabIndex = 3;
@@ -78,18 +77,17 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(574, 146);
+            this.ClientSize = new System.Drawing.Size(548, 171);
             this.Controls.Add(this.cbRepeat);
             this.Controls.Add(this.cbLoop);
             this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.btnPlay);
-            this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "MainForm";
+            this.Text = "回放工具";
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

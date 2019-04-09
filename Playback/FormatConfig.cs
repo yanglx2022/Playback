@@ -9,7 +9,7 @@ namespace Playback
     /// <summary>
     /// 数据格式配置
     /// </summary>
-    class FormatConfig
+    public class FormatConfig
     {
         /// <summary>
         /// 格式配置列表
