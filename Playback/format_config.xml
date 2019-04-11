@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<format>
+		<name>dis_odom</name>
+		<desc>超声原始距离与里程计</desc>
+		<pattern type = "10" sep = ",">byte[ ]byte[ ]int</pattern>
+		<pattern type = "11" >double[,]double[,]double</pattern>
+	</format>
+	<format>
+		<name>test1</name>
+		<desc>测试1</desc>
+		<pattern sep = ";">
+			<pattern sep = ",">
+				<pattern type = "12" sep = "+">int[ ]float[ ]string</pattern>
+			</pattern>
+		</pattern>
+		<pattern type = "13" >int[,]float[,]string</pattern>
+	</format>
+	<format>
+		<name>test2</name>
+		<desc>测试2</desc>
+		<pattern type = "14" sep = ",">int</pattern>
+	</format>
+</configuration>

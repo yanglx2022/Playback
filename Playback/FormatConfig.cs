@@ -12,32 +12,19 @@ namespace Playback
     public class FormatConfig
     {
         /// <summary>
-        /// 格式配置列表
+        /// 从文件读取数据格式配置
         /// </summary>
-        List<Format> configs = new List<Format>();
-
-        /// <summary>
-        /// 数据格式配置
-        /// </summary>
-        public FormatConfig()
+        public static List<Format> LoadFromFile(string filename = "format_config.xml")
         {
-            Parse("format_config.xml");
-        }
-
-        /// <summary>
-        /// 加载配置文件
-        /// </summary>
-        public void Load(string filename)
-        {
-            Parse(filename);
+            return Parse(filename);
         }
 
         /// <summary>
         /// 解析配置xml
         /// </summary>
-        private void Parse(string filename)
+        private static List<Format> Parse(string filename)
         {
-            configs.Clear();
+            List<Format> formats = new List<Format>();
             FileInfo info = new FileInfo(filename);
             if (info.Exists)
             {
@@ -47,7 +34,7 @@ namespace Playback
                 for(int i = 0; i < nodeList.Count; i++)
                 {
                     Format format = new Format();
-                    configs.Add(format);
+                    formats.Add(format);
                     foreach (XmlNode node in nodeList[i])
                     {
                         switch (node.Name)
@@ -59,7 +46,7 @@ namespace Playback
                                 format.Description = node.InnerText;
                                 break;
                             case "pattern":
-                                format.PatternList.Add(new Format.Pattern(node));
+                                format.Add(new Format.Pattern(node));
                                 break;
                             default:
                                 break;
@@ -67,6 +54,7 @@ namespace Playback
                     }
                 }
             }
+            return formats;
         }
     }
 }

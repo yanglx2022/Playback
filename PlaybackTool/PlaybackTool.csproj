@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E8DD9AE6-3550-4A14-B98A-9114497A212B}</ProjectGuid>
+    <ProjectGuid>{76EC0B3C-BC31-4172-A6D0-230DE422DEF2}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>PlaybackTool</RootNamespace>
     <AssemblyName>PlaybackTool</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -34,13 +34,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Common">
-      <HintPath>dll\Debug\Common.dll</HintPath>
+      <HintPath>dll\Common.dll</HintPath>
     </Reference>
     <Reference Include="Dependency">
-      <HintPath>dll\Debug\Dependency.dll</HintPath>
+      <HintPath>dll\Dependency.dll</HintPath>
     </Reference>
     <Reference Include="Remote">
-      <HintPath>dll\Debug\Remote.dll</HintPath>
+      <HintPath>dll\Remote.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -61,11 +61,26 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="NetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NetForm.Designer.cs">
+      <DependentUpon>NetForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectionForm.Designer.cs">
+      <DependentUpon>SelectionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UdpNet.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NetForm.resx">
+      <DependentUpon>NetForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -76,6 +91,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SelectionForm.resx">
+      <DependentUpon>SelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

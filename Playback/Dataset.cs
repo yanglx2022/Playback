@@ -17,10 +17,18 @@ namespace Playback {
 		/// </summary>
 		private List<Packet> _packetList;
 
-		/// <summary>
+        /// <summary>
 		///     回放数据
 		/// </summary>
-		public Dataset(List<Packet> packets) => _packetList = packets;
+		public Dataset()
+        {
+            _packetList = new List<Packet>();
+        }
+
+        /// <summary>
+        ///     回放数据
+        /// </summary>
+        public Dataset(List<Packet> packets) => _packetList = packets;
 
 		/// <summary>
 		///     回放数据数量
