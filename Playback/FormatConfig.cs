@@ -25,35 +25,39 @@ namespace Playback
         private static List<Format> Parse(string filename)
         {
             List<Format> formats = new List<Format>();
-            FileInfo info = new FileInfo(filename);
-            if (info.Exists)
+            try
             {
-                XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.Load(filename);
-                XmlNodeList nodeList = xmlDoc.GetElementsByTagName("format");
-                for(int i = 0; i < nodeList.Count; i++)
+                FileInfo info = new FileInfo(filename);
+                if (info.Exists)
                 {
-                    Format format = new Format();
-                    formats.Add(format);
-                    foreach (XmlNode node in nodeList[i])
+                    XmlDocument xmlDoc = new XmlDocument();
+                    xmlDoc.Load(filename);
+                    XmlNodeList nodeList = xmlDoc.GetElementsByTagName("format");
+                    for (int i = 0; i < nodeList.Count; i++)
                     {
-                        switch (node.Name)
+                        Format format = new Format();
+                        formats.Add(format);
+                        foreach (XmlNode node in nodeList[i])
                         {
-                            case "name":
-                                format.Name = node.InnerText;
-                                break;
-                            case "desc":
-                                format.Description = node.InnerText;
-                                break;
-                            case "pattern":
-                                format.Add(new Format.Pattern(node));
-                                break;
-                            default:
-                                break;
+                            switch (node.Name)
+                            {
+                                case "name":
+                                    format.Name = node.InnerText;
+                                    break;
+                                case "desc":
+                                    format.Description = node.InnerText;
+                                    break;
+                                case "pattern":
+                                    format.Add(new Format.Pattern(node));
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
                 }
             }
+            catch { }
             return formats;
         }
     }
