@@ -102,11 +102,10 @@ namespace PlaybackTool
                     int value = BitConverter.ToInt32(data, i + 2);
                     if (id1 < 90 && id2 >= 90)
                     {
-                        var ms = new MemoryStream();
+                        MemoryStream ms = new MemoryStream();
                         ms.WriteEnd(id2 + "-" + id1);
-                        var writer = new NetworkDataWriter(ms);
-                        writer.Write((double)(packet.TimeStamp - timeStampBase));
-                        writer.Write((double)value);
+                        ms.Write(BitConverter.GetBytes((double)(packet.TimeStamp - timeStampBase)));
+                        ms.Write(BitConverter.GetBytes((double)value));
                         net?.Cast(ms.ToArray(), (byte)UdpCmd.TopicMessage);
                     }
                 }

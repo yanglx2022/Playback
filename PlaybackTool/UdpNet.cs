@@ -66,7 +66,7 @@ namespace PlaybackTool
         {
             var listen = new MulticastListener(
                 pack => OnDataReceived?.Invoke(pack.Payload, pack.Command), (byte)UdpCmd.Common);
-            return new RemoteHub("PlaybackTool", group: group, additions: listen);
+            return new RemoteHub("PlaybackTool" + new Random().Next(1000,9999), group: group, additions: listen);
         }
 
         /// <summary>

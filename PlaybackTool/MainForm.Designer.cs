@@ -164,6 +164,7 @@
             this.Controls.Add(this.lbCnt);
             this.Controls.Add(this.btnPlay);
             this.Controls.Add(this.btnRecord);
+            this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "数据回放工具";
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();

@@ -111,7 +111,14 @@ namespace Playback {
                     dataList.Add(b);
                 }
 			}
-            data = dataList.ToArray();
+            List<byte> list = new List<byte>();
+            if (pattern.Type == 5)
+            {
+                list.AddRange(System.Text.Encoding.Default.GetBytes("Position"));
+                list.Add(0);
+            }
+            list.AddRange(dataList);
+            data = list.ToArray();
             Type = pattern.Type;    // 设置包类型
             return true;
 		}

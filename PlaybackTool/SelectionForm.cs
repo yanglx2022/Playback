@@ -17,6 +17,9 @@ namespace PlaybackTool
         /// 选中的格式
         /// </summary>
         public Format Format { get; private set; }
+
+        // 退出标志(只有一个有效配置时)
+        bool bExit = false;
         
         public SelectionForm()
         {
@@ -34,7 +37,7 @@ namespace PlaybackTool
             else if (formats.Count == 1)
             {
                 Format = formats[0];
-                this.Close();
+                bExit = true;
             }
             else
             {
@@ -48,6 +51,15 @@ namespace PlaybackTool
                 }
                 ((RadioButton)flowLayoutPanel2.Controls[0]).Checked = true;
                 Format = formats[0];
+            }
+        }
+
+        // 自动退出
+        private void SelectionForm_Load(object sender, EventArgs e)
+        {
+            if (bExit)
+            {
+                DialogResult = DialogResult.OK;
             }
         }
 
